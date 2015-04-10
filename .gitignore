@@ -14,3 +14,6 @@ hs_err_pid*
 #idea
 **/.idea/workspace.xml
 **/.idea/tasks.xml
+
+.idea/
+artifacts/
