@@ -11,6 +11,36 @@ import java.util.*;
  * Description:
  */
 public class GoddessAction {
+    public void add(Goddess goddess) throws SQLException {
+        GoddessDao g = new GoddessDao();
+        g.addGoddess(goddess);
+    }
+
+    public void edit(Goddess goddess) throws SQLException {
+        GoddessDao g = new GoddessDao();
+        g.updateGoddess(goddess);
+    }
+
+    public Goddess get(int id) throws SQLException {
+        GoddessDao g = new GoddessDao();
+        return g.get(id);
+    }
+
+    public void del(int id) throws SQLException {
+        GoddessDao g = new GoddessDao();
+        g.delGoddess(id);
+    }
+
+    public List<Goddess> query() throws SQLException {
+        GoddessDao g = new GoddessDao();
+        return g.query(null);
+    }
+
+    public List<Goddess> query(List<Map<String, Object>> params) throws SQLException {
+        GoddessDao g = new GoddessDao();
+        return g.query(params);
+    }
+
     public static void main(String[] args) throws SQLException {
         GoddessDao g = new GoddessDao();
         List<Map<String, Object>> params = new ArrayList<Map<String, Object>>();
