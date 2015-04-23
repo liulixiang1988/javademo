@@ -7,8 +7,34 @@
         <filter-name>FirstFilter</filter-name>
         <filter-class>liulx.FilterDemo.FirstFilter</filter-class>
     </filter>
+    <filter>
+        <filter-name>SecondFilter</filter-name>
+        <filter-class>liulx.FilterDemo.SecondFilter</filter-class>
+    </filter>
+    <filter>
+        <filter-name>ErrorFilter</filter-name>
+        <filter-class>liulx.FilterDemo.ErrorFilter</filter-class>
+    </filter>
     <filter-mapping>
         <filter-name>FirstFilter</filter-name>
         <url-pattern>/index.jsp</url-pattern>
+        <dispatcher>REQUEST</dispatcher>
+    </filter-mapping>
+    <filter-mapping>
+        <filter-name>SecondFilter</filter-name>
+        <url-pattern>/index.jsp</url-pattern>
+    </filter-mapping>
+    <error-page>
+        <error-code>404</error-code>
+        <location>/error.jsp</location>
+    </error-page>
+    <error-page>
+        <error-code>500</error-code>
+        <location>/error.jsp</location>
+    </error-page>
+    <filter-mapping>
+        <filter-name>ErrorFilter</filter-name>
+        <url-pattern>/error.jsp</url-pattern>
+        <dispatcher>ERROR</dispatcher>
     </filter-mapping>
 </web-app>
