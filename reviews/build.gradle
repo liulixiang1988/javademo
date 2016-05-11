@@ -1,0 +1,15 @@
+group 'io.github.liulixiang1988'
+version '1.0-SNAPSHOT'
+
+apply plugin: 'java'
+
+sourceCompatibility = 1.5
+
+repositories {
+    mavenCentral()
+}
+
+dependencies {
+    compile group: 'org.apache.commons', name: 'commons-csv', version: '1.3'
+    testCompile group: 'junit', name: 'junit', version: '4.11'
+}
