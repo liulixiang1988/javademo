@@ -5,10 +5,16 @@
     <title>同学们好!</title>
 </head>
 <body>
-    <h1>同学们好!</h1>
-    <form action="/sign-in" method="post">
-        <input type="text" name="username" placeholder="你的名字?" />
-        <button>登录</button>
-    </form>
+
+    {{#if username}}
+        <h1>{{username}}好!</h1>
+    {{else}}
+        <h1>同学,你好!</h1>
+        <form action="/sign-in" method="post">
+            <input type="text" name="username" placeholder="你的名字?" />
+            <button>登录</button>
+        </form>
+    {{/if}}
+
 </body>
 </html>
