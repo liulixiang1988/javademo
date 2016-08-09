@@ -15,6 +15,7 @@
 
     <build>
         <plugins>
+            <!--运行命令行 mvn exec:java-->
             <plugin>
                 <groupId>org.codehaus.mojo</groupId>
                 <artifactId>exec-maven-plugin</artifactId>
@@ -31,6 +32,20 @@
                     <arguments>
                         <argument>${echo-server.port}</argument>
                     </arguments>
+                </configuration>
+            </plugin>
+            <!--指定manifest中的主类-->
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-jar-plugin</artifactId>
+                <configuration>
+                    <archive>
+                        <manifest>
+                            <addClasspath>true</addClasspath>
+                            <classpathPrefix>lib/</classpathPrefix>
+                            <mainClass>lx.netty.server.EchoServer</mainClass>
+                        </manifest>
+                    </archive>
                 </configuration>
             </plugin>
         </plugins>
