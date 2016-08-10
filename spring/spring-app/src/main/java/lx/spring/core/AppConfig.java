@@ -1,6 +1,7 @@
 package lx.spring.core;
 
 import lx.spring.core.entities.*;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Import;
@@ -13,8 +14,11 @@ import javax.sql.DataSource;
 @Configuration
 @Import(InfrastructureConfig.class)
 public class AppConfig {
+
+    @Autowired
+    private DataSource dataSource;
     @Bean
-    public Game game(DataSource dataSource) {
+    public Game game() {
         BaseballGame game = new BaseballGame(redSox(), cubs());
         game.setDataSource(dataSource);
         return game;
