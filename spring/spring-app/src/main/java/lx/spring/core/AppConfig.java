@@ -1,12 +1,14 @@
 package lx.spring.core;
 
-import lx.spring.core.entities.*;
+import lx.spring.core.entities.BaseballGame;
+import lx.spring.core.entities.Game;
+import lx.spring.core.entities.Team;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
 
+import javax.annotation.Resource;
 import javax.sql.DataSource;
 
 /**
@@ -19,16 +21,15 @@ public class AppConfig {
     @Autowired
     private DataSource dataSource;
 
-    @Autowired @Qualifier("redSox")
-    private Team home;
+    @Resource
+    private Team redSox;
 
-
-    @Autowired @Qualifier("cubs")
-    private Team away;
+    @Resource
+    private Team cubs;
 
     @Bean
     public Game game() {
-        BaseballGame game = new BaseballGame(home, away);
+        BaseballGame game = new BaseballGame(redSox, cubs);
         game.setDataSource(dataSource);
         return game;
     }
