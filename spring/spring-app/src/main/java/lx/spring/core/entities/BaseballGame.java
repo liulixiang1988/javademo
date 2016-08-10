@@ -1,11 +1,14 @@
 package lx.spring.core.entities;
 
+import javax.sql.DataSource;
+
 /**
  * Created by liulixiang on 16/8/9.
  */
 public class BaseballGame implements Game {
     private Team homeTeam;
     private Team awayTeam;
+    private DataSource dataSource;
 
     public BaseballGame() {
     }
@@ -13,6 +16,10 @@ public class BaseballGame implements Game {
     public BaseballGame(Team homeTeam, Team awayTeam) {
         this.homeTeam = homeTeam;
         this.awayTeam = awayTeam;
+    }
+
+    public void setDataSource(DataSource dataSource) {
+        this.dataSource = dataSource;
     }
 
     @Override
