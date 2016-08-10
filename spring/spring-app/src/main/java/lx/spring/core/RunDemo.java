@@ -13,5 +13,13 @@ public class RunDemo {
 
         Game game = context.getBean("game", Game.class);
         System.out.println(game.playGame());
+
+        //获取Bean的数量
+        System.out.println("Bean的数量" + context.getBeanDefinitionCount());
+        //获取Bean的名称
+        for (String name :
+                context.getBeanDefinitionNames()) {
+            System.out.println(name );
+        }
     }
 }
