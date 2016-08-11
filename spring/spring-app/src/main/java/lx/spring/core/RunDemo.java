@@ -13,7 +13,7 @@ import java.text.NumberFormat;
  */
 public class RunDemo {
     public static void main(String[] args) {
-        ApplicationContext context = new AnnotationConfigApplicationContext(AppConfig.class);
+        AnnotationConfigApplicationContext context = new AnnotationConfigApplicationContext(AppConfig.class);
 //        ApplicationContext context = new ClassPathXmlApplicationContext("applicationContext.xml");
 //        NumberFormat nf = context.getBean(NumberFormat.class);
 //        double amount = 12345678.9012345;
@@ -23,6 +23,7 @@ public class RunDemo {
 //
         Game game1 = context.getBean("game", Game.class);
         System.out.println(game1);
+        context.close();
 //
 //        Game game2 = context.getBean("game", Game.class);
 //        game2.setAwayTeam(royals);

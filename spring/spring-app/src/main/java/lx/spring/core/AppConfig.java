@@ -28,7 +28,7 @@ public class AppConfig {
     private List<Team> teams;
 
     @Bean
-    @Scope("prototype")
+    //@Scope("prototype")
     public Game game() {
         BaseballGame game = new BaseballGame(teams.get(0), teams.get(1));
         game.setDataSource(dataSource);
