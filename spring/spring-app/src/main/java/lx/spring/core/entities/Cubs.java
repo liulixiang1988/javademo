@@ -5,7 +5,7 @@ import org.springframework.stereotype.Component;
 /**
  * Created by liulixiang on 16/8/9.
  */
-//@Component
+@Component
 public class Cubs implements Team {
     @Override
     public String getName() {
