@@ -47,4 +47,9 @@ public class BaseballGame implements Game {
         return Math.random() < 0.5 ? getHomeTeam().getName() :
                 getAwayTeam().getName();
     }
+
+    @Override
+    public String toString() {
+        return String.format("Game between %s at %s", awayTeam.getName(), homeTeam.getName());
+    }
 }

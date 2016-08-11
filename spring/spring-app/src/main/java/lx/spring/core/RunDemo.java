@@ -14,19 +14,23 @@ public class RunDemo {
         ApplicationContext context = new AnnotationConfigApplicationContext(AppConfig.class);
         //ApplicationContext context = new ClassPathXmlApplicationContext("applicationContext.xml");
 
-        Game game = context.getBean("game", Game.class);
-        System.out.println(game.playGame());
-
         Team royals = context.getBean("royals", Team.class);
-        game.setAwayTeam(royals);
-        System.out.println(game.playGame());
+
+        Game game1 = context.getBean("game", Game.class);
+        System.out.println(game1);
+
+        Game game2 = context.getBean("game", Game.class);
+        game2.setAwayTeam(royals);
+        System.out.println(game2);
+
+        System.out.println(game1);
 
         //获取Bean的数量
-        System.out.println("Bean的数量" + context.getBeanDefinitionCount());
-        //获取Bean的名称
-        for (String name :
-                context.getBeanDefinitionNames()) {
-            System.out.println(name );
-        }
+//        System.out.println("Bean的数量" + context.getBeanDefinitionCount());
+//        //获取Bean的名称
+//        for (String name :
+//                context.getBeanDefinitionNames()) {
+//            System.out.println(name );
+//        }
     }
 }
