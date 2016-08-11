@@ -17,17 +17,18 @@ import java.util.List;
 /**
  * Created by liulixiang on 16/8/9.
  */
-//@Configuration
-//@ComponentScan(basePackages = "lx.spring.core")
+@Configuration
+@ComponentScan(basePackages = "lx.spring.core")
 public class AppConfig {
 
-    //@Autowired
+    @Autowired
     private DataSource dataSource;
 
-    //@Autowired
+    @Autowired
     private List<Team> teams;
 
-    //@Bean @Scope("prototype")
+    @Bean
+    @Scope("prototype")
     public Game game() {
         BaseballGame game = new BaseballGame(teams.get(0), teams.get(1));
         game.setDataSource(dataSource);

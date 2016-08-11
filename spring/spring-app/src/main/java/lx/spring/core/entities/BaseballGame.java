@@ -1,5 +1,7 @@
 package lx.spring.core.entities;
 
+import javax.annotation.PostConstruct;
+import javax.annotation.PreDestroy;
 import javax.sql.DataSource;
 
 /**
@@ -18,10 +20,12 @@ public class BaseballGame implements Game {
         this.awayTeam = awayTeam;
     }
 
+    @PostConstruct
     public void startGame() {
         System.out.println("Start game!");
     }
 
+    @PreDestroy
     public void endGame() {
         System.out.println("End game!");
     }
