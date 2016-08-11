@@ -8,10 +8,16 @@
        http://www.springframework.org/schema/context
        http://www.springframework.org/schema/context/spring-context.xsd ">
 
+    <bean id="nf" class="java.text.NumberFormat" factory-method="getCurrencyInstance" />
+
+    <bean id="factory" class="javax.xml.parsers.DocumentBuilderFactory" factory-method="newInstance" />
+
+    <bean id="documentBuilder" class="javax.xml.parsers.DocumentBuilder" factory-bean="factory" factory-method="newDocumentBuilder"/>
+
     <context:component-scan base-package="lx.spring.core"/>
 
-    <bean id="redSox" class="lx.spring.core.entities.RedSox"/>
-    <bean id="cubs" class="lx.spring.core.entities.Cubs" />
+    <!--<bean id="redSox" class="lx.spring.core.entities.RedSox"/>-->
+    <!--<bean id="cubs" class="lx.spring.core.entities.Cubs" />-->
 
     <bean id="game" class="lx.spring.core.entities.BaseballGame">
         <property name="awayTeam" ref="redSox" />

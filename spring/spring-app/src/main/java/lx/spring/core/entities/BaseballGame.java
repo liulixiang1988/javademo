@@ -18,6 +18,14 @@ public class BaseballGame implements Game {
         this.awayTeam = awayTeam;
     }
 
+    public void startGame() {
+        System.out.println("Start game!");
+    }
+
+    public void endGame() {
+        System.out.println("End game!");
+    }
+
     public void setDataSource(DataSource dataSource) {
         this.dataSource = dataSource;
     }
