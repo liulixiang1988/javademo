@@ -26,16 +26,16 @@ public class LoggingAspect {
 //        logger.info("在"+target+"上调用"+method+"参数:"+args);
 //    }
 
-    @Around("execution(String playGame())")
-    public Object checkForRain(ProceedingJoinPoint pjp) throws Throwable {
-        boolean rain = Math.random() < 0.5;
-        Object result = null;
-        if (rain) {
-            logger.info(pjp.getTarget() + " rained out");
-        } else {
-            result = pjp.proceed();
-            logger.info(result.toString());
-        }
-        return result;
-    }
+//    @Around("execution(String playGame())")
+//    public Object checkForRain(ProceedingJoinPoint pjp) throws Throwable {
+//        boolean rain = Math.random() < 0.5;
+//        Object result = null;
+//        if (rain) {
+//            logger.info(pjp.getTarget() + " rained out");
+//        } else {
+//            result = pjp.proceed();
+//            logger.info(result.toString());
+//        }
+//        return result;
+//    }
 }
