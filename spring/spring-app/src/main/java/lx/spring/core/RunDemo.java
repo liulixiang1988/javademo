@@ -19,10 +19,15 @@ public class RunDemo {
 //        double amount = 12345678.9012345;
 //        System.out.println(nf.format(amount));
 
-//        Team royals = context.getBean("royals", Team.class);
-//
+        Team royals = context.getBean("royals", Team.class);
+        Team redSox = context.getBean("redSox", Team.class);
+        Team cubs = context.getBean("cubs", Team.class);
+
         Game game1 = context.getBean("game", Game.class);
         System.out.println(game1);
+        game1.setHomeTeam(royals);
+        game1.setAwayTeam(redSox);
+        game1.playGame();
         context.close();
 //
 //        Game game2 = context.getBean("game", Game.class);

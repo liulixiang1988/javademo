@@ -5,10 +5,7 @@ import lx.spring.core.entities.Game;
 import lx.spring.core.entities.Team;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
-import org.springframework.context.annotation.Bean;
-import org.springframework.context.annotation.ComponentScan;
-import org.springframework.context.annotation.Configuration;
-import org.springframework.context.annotation.Scope;
+import org.springframework.context.annotation.*;
 
 import javax.annotation.Resource;
 import javax.sql.DataSource;
@@ -19,6 +16,7 @@ import java.util.List;
  */
 @Configuration
 @ComponentScan(basePackages = "lx.spring.core")
+@EnableAspectJAutoProxy
 public class AppConfig {
 
     @Autowired
@@ -28,7 +26,7 @@ public class AppConfig {
     private List<Team> teams;
 
     @Bean
-    //@Scope("prototype")
+    @Scope("prototype")
     public Game game() {
         BaseballGame game = new BaseballGame(teams.get(0), teams.get(1));
         game.setDataSource(dataSource);
