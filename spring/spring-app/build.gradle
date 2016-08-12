@@ -12,6 +12,10 @@ repositories {
 dependencies {
     compile group: 'org.springframework', name: 'spring-context', version: '4.3.2.RELEASE'
     compile group: 'org.springframework', name: 'spring-jdbc', version: '4.3.2.RELEASE'
+    compile group: 'org.springframework', name: 'spring-aop', version: '4.3.2.RELEASE'
+    compile group: 'aopalliance', name: 'aopalliance', version: '1.0'
+    compile group: 'org.aspectj', name: 'aspectjweaver', version: '1.8.9'
+
     testCompile group: 'org.springframework', name: 'spring-test', version: '4.3.2.RELEASE'
     testCompile group: 'junit', name: 'junit', version: '4.11'
 }
