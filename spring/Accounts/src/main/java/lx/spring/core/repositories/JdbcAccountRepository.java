@@ -5,10 +5,13 @@ import lx.spring.core.entities.Account;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Profile;
 import org.springframework.jdbc.core.JdbcTemplate;
+import org.springframework.jdbc.core.RowMapper;
 import org.springframework.stereotype.Repository;
 
 import javax.sql.DataSource;
 import java.math.BigDecimal;
+import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.util.List;
 
 @Repository
@@ -43,16 +46,28 @@ public class JdbcAccountRepository implements AccountRepository {
 
     @Override
     public Long createAccount(BigDecimal initialBalance) {
-        return null;
+        String sqlText = "insert into account(id, balance) values(?, ?)";
+        long id = nextId ++;
+        int uc = template.update(sqlText, id, initialBalance);
+        return id;
     }
 
     @Override
     public int deleteAccount(Long id) {
-        return 0;
+        String sqlText = "delete from account where id=?";
+        return template.update(sqlText, id);
     }
 
     @Override
     public void updateAccount(Account account) {
+        String sqlText = "update account set balance=? where id = ?";
+        template.update(sqlText, account.getBalance(), account.getId());
+    }
 
+    private class AccountMapper implements RowMapper<Account>{
+        @Override
+        public Account mapRow(ResultSet rs, int rowNum) throws SQLException {
+            return new Account(rs.getLong("id"), rs.getBigDecimal("balance"));
+        }
     }
 }
