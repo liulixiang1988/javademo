@@ -13,6 +13,7 @@ dependencies {
     compile group: 'org.springframework', name: 'spring-context', version: '4.3.2.RELEASE'
     compile group: 'org.springframework', name: 'spring-jdbc', version: '4.3.2.RELEASE'
     compile group: 'org.apache.commons', name: 'commons-dbcp2', version: '2.1.1'
+    compile 'com.h2database:h2:1.4.192'
 
     compile group: 'org.springframework', name: 'spring-aop', version: '4.3.2.RELEASE'
     compile group: 'aopalliance', name: 'aopalliance', version: '1.0'

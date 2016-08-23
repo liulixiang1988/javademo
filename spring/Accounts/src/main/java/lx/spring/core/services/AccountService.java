@@ -33,4 +33,9 @@ public class AccountService {
     public BigDecimal withdraw(Long id, BigDecimal amount) {
         return deposit(id, amount.negate());
     }
+
+    public void transfer(Long fromId, Long toId, BigDecimal amount) {
+        withdraw(fromId, amount);
+        deposit(toId, amount);
+    }
 }
