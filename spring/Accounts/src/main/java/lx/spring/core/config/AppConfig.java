@@ -1,5 +1,6 @@
 package lx.spring.core.config;
 
+import org.apache.commons.dbcp2.BasicDataSource;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.*;
 import org.springframework.core.env.Environment;
@@ -30,7 +31,7 @@ public class AppConfig {
                 .setScriptEncoding("UTF-8")
                 .ignoreFailedDrops(true)
                 .addScript("schema.sql")
-                .addScript("data.sql")
+                .addScripts("data.sql")
                 .build();
     }
 
@@ -46,7 +47,7 @@ public class AppConfig {
         BasicDataSource dataSource = new BasicDataSource();
         dataSource.setDriverClassName(env.getProperty("db.driver"));
         dataSource.setUrl(env.getProperty("db.url"));
-        dataSource.setUserName(env.getProperty("db.user"));
+        dataSource.setUsername(env.getProperty("db.user"));
         dataSource.setPassword(env.getProperty("db.pass"));
         return dataSource;
     }
