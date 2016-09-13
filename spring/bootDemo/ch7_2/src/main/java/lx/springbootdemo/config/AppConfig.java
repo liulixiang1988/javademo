@@ -24,10 +24,10 @@ public class AppConfig extends WebMvcConfigurerAdapter {
 //        return factory;
 //    }
 
-    @Bean
-    public EmbeddedServletContainerFactory servletContainer() {
-        JettyEmbeddedServletContainerFactory factory = new JettyEmbeddedServletContainerFactory();
-        factory.addErrorPages(new ErrorPage(HttpStatus.NOT_FOUND, "/404.html"));
-        return factory;
-    }
+//    @Bean
+//    public EmbeddedServletContainerFactory servletContainer() {
+//        JettyEmbeddedServletContainerFactory factory = new JettyEmbeddedServletContainerFactory();
+//        factory.addErrorPages(new ErrorPage(HttpStatus.NOT_FOUND, "/404.html"));
+//        return factory;
+//    }
 }
