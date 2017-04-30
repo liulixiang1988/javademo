@@ -10,15 +10,15 @@
             <PatternLayout pattern="%d{yyyy-MM-dd HH:mm:ss,SSS}:%4p %t (%F:%L) - %m%n" />
         </Console>
 
-        <!-- 输出到文件，按天或者超过80MB分割 -->
-        <RollingFile name="RollingFile" fileName="../logs/xjj.log"    filePattern="../logs/$${date:yyyy-MM}/xjj-%d{yyyy-MM-dd}-%i.log.gz">
+        <!-- 输出到文件，按天或者超过20MB分割 -->
+        <RollingFile name="RollingFile" fileName="../logs/endpoints.log"    filePattern="../logs/$${date:yyyy-MM}/endpoints-%d{yyyy-MM-dd}-%i.log.gz">
             <!-- 需要记录的级别 -->
             <!-- <ThresholdFilter level="info" onMatch="ACCEPT" onMismatch="DENY" /> -->
             <PatternLayout pattern="%d{yyyy-MM-dd HH:mm:ss,SSS}:%4p %t (%F:%L) - %m%n" />
             <Policies>
                 <OnStartupTriggeringPolicy />
                 <TimeBasedTriggeringPolicy />
-                <SizeBasedTriggeringPolicy size="80 MB" />
+                <SizeBasedTriggeringPolicy size="20 MB" />
             </Policies>
         </RollingFile>
     </Appenders>

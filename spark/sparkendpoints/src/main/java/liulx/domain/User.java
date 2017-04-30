@@ -1,9 +1,17 @@
 package liulx.domain;
 
+import org.bson.types.ObjectId;
+import org.mongodb.morphia.annotations.Entity;
+import org.mongodb.morphia.annotations.Id;
+
 /**
  * Created by Liu Lixiang on 2017/4/30.
  */
+@Entity
 public class User {
+
+    @Id
+    private ObjectId id;
     private String firstName;
     private String lastName;
     private String userName;
