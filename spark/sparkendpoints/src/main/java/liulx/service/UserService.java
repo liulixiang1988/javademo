@@ -2,6 +2,7 @@ package liulx.service;
 
 import com.mongodb.MongoClient;
 import liulx.domain.User;
+import org.mindrot.jbcrypt.BCrypt;
 import org.mongodb.morphia.Datastore;
 import org.mongodb.morphia.Morphia;
 
@@ -27,5 +28,14 @@ public class UserService {
         }
         return "User already exists";
 
+    }
+
+    public boolean authentication(String username, String password) {
+        User user = getUser(username);
+
+        if (user != null && BCrypt.checkpw(password, user.getPassword())) {
+            return true;
+        }
+        return false;
     }
 }
