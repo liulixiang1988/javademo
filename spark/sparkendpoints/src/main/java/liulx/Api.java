@@ -2,6 +2,7 @@ package liulx;
 
 import liulx.domain.User;
 import liulx.service.UserService;
+import org.mindrot.jbcrypt.BCrypt;
 
 import static liulx.util.JsonUtil.json;
 import static liulx.util.JsonUtil.toObject;
@@ -35,6 +36,8 @@ public class Api {
         post("/new-user", "application/json", (req, res) -> {
             res.type("application/json");
             User user = toObject(req.body(), User.class);
+            String hashedPassword = BCrypt.hashpw(user.getPassword(), BCrypt.gensalt());
+            user.setPassword(hashedPassword);
             return userService.createUser(user);
         }, json());
     }
