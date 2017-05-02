@@ -1,8 +1,12 @@
 package liulx.domain;
 
 import org.bson.types.ObjectId;
+import org.mongodb.morphia.annotations.Embedded;
 import org.mongodb.morphia.annotations.Entity;
 import org.mongodb.morphia.annotations.Id;
+
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Created by Liu Lixiang on 2017/4/30.
@@ -18,6 +22,21 @@ public class User {
     private String password;
     private int age;
     private int likes;
+
+    @Embedded("UserPosts")
+    private List<Post> posts = new ArrayList<>();
+
+    public ObjectId getId() {
+        return id;
+    }
+
+    public List<Post> getPosts() {
+        return posts;
+    }
+
+    public void setPosts(List<Post> posts) {
+        this.posts = posts;
+    }
 
     public String getFirstName() {
         return firstName;

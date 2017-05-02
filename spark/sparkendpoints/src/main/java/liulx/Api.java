@@ -1,6 +1,8 @@
 package liulx;
 
+import liulx.domain.Post;
 import liulx.domain.User;
+import liulx.service.PostService;
 import liulx.service.UserService;
 import org.mindrot.jbcrypt.BCrypt;
 import org.slf4j.Logger;
@@ -17,6 +19,7 @@ import static spark.Spark.*;
  */
 public class Api {
     public static UserService userService = new UserService();
+    public static PostService postService = new PostService();
     public static Logger logger = LoggerFactory.getLogger(Api.class);
 
     public static void main(String[] args) {
@@ -25,21 +28,21 @@ public class Api {
             //halt("You can't come in");
             String authentication = req.headers("Authorization");
 
-            if (authentication != null && authentication.startsWith("Basic")) {
-                String credentials = authentication.substring("Basic".length()).trim();
-                byte[] decoded = DatatypeConverter.parseBase64Binary(credentials);
-                String decodedString = new String(decoded);
-                logger.info(decodedString);
-                String[] actualCredentials = decodedString.split(":");
-                String userName = actualCredentials[0];
-                String password = actualCredentials[1];
-
-                if (userService.authentication(userName, password)) {
-                    halt(401, "Sorry, Not authorized!");
-                }
-            } else {
-                halt(401, "Not authorized!");
-            }
+//            if (authentication != null && authentication.startsWith("Basic")) {
+//                String credentials = authentication.substring("Basic".length()).trim();
+//                byte[] decoded = DatatypeConverter.parseBase64Binary(credentials);
+//                String decodedString = new String(decoded);
+//                logger.info(decodedString);
+//                String[] actualCredentials = decodedString.split(":");
+//                String userName = actualCredentials[0];
+//                String password = actualCredentials[1];
+//
+//                if (userService.authentication(userName, password)) {
+//                    halt(401, "Sorry, Not authorized!");
+//                }
+//            } else {
+//                halt(401, "Not authorized!");
+//            }
         });
 
         get("greeting", (req, res) -> {
@@ -66,6 +69,31 @@ public class Api {
             String hashedPassword = BCrypt.hashpw(user.getPassword(), BCrypt.gensalt());
             user.setPassword(hashedPassword);
             return userService.createUser(user);
+        }, json());
+
+        post("/api/:username/newpost", (req, res) -> {
+            res.type("application/json");
+           String username = req.params(":username");
+           User user = userService.getUser(username);
+           Post post = toObject(req.body(), Post.class);
+           postService.create(post, user);
+           return post;
+        }, json());
+
+        get("/api/:username/posts", (req, res) -> {
+            res.type("application/json");
+            String username = req.params(":username");
+            User user = userService.getUser(username);
+            return postService.getPosts(user);
+        }, json());
+
+        get("/api/:username/posts/:postId", (req, res) -> {
+            res.type("application/json");
+
+            String username = req.params(":username");
+            int id = Integer.parseInt(req.params(":postId"));
+
+            return postService.getPost(id, userService.getUser(username));
         }, json());
     }
 }

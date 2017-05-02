@@ -14,7 +14,7 @@ public class UserService {
     Datastore datastore = new Morphia().createDatastore(mongoClient, "users");
 
     public User getUser(String username) {
-        User user = datastore.createQuery(User.class).field("userName").endsWith(username).get();
+        User user = datastore.createQuery(User.class).field("userName").equal(username).get();
         if (user != null) {
             return user;
         }
