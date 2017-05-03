@@ -23,7 +23,7 @@
         </RollingFile>
     </Appenders>
     <Loggers>
-        <Root level="info"> <!-- 全局配置 -->
+        <Root level="debug"> <!-- 全局配置 -->
             <AppenderRef ref="Console" />
             <AppenderRef ref="RollingFile"/>
         </Root>

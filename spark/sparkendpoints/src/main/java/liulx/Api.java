@@ -1,22 +1,31 @@
 package liulx;
 
+import com.mongodb.BasicDBObject;
 import com.mongodb.DB;
 import com.mongodb.DBCollection;
 import com.mongodb.gridfs.GridFS;
+import com.mongodb.gridfs.GridFSDBFile;
 import com.mongodb.gridfs.GridFSInputFile;
 import liulx.domain.Post;
 import liulx.domain.User;
 import liulx.service.PostService;
 import liulx.service.UserService;
 import liulx.util.MongoConnector;
+import org.bson.types.ObjectId;
 import org.mindrot.jbcrypt.BCrypt;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import spark.utils.IOUtils;
 
 import javax.servlet.MultipartConfigElement;
+import javax.servlet.ServletOutputStream;
 import javax.servlet.http.Part;
+import javax.xml.bind.DatatypeConverter;
 import java.io.File;
+import java.io.IOException;
 import java.io.InputStream;
+import java.util.ArrayList;
+import java.util.List;
 
 import static liulx.util.JsonUtil.json;
 import static liulx.util.JsonUtil.toObject;
@@ -39,25 +48,25 @@ public class Api {
         DBCollection collection = db.getCollection("myvideos.files");
 
 
-        before("/*", (req, res) -> {
+        before("/api/*", (req, res) -> {
             //halt("You can't come in");
             String authentication = req.headers("Authorization");
 
-//            if (authentication != null && authentication.startsWith("Basic")) {
-//                String credentials = authentication.substring("Basic".length()).trim();
-//                byte[] decoded = DatatypeConverter.parseBase64Binary(credentials);
-//                String decodedString = new String(decoded);
-//                logger.info(decodedString);
-//                String[] actualCredentials = decodedString.split(":");
-//                String userName = actualCredentials[0];
-//                String password = actualCredentials[1];
-//
-//                if (userService.authentication(userName, password)) {
-//                    halt(401, "Sorry, Not authorized!");
-//                }
-//            } else {
-//                halt(401, "Not authorized!");
-//            }
+            if (authentication != null && authentication.startsWith("Basic")) {
+                String credentials = authentication.substring("Basic".length()).trim();
+                byte[] decoded = DatatypeConverter.parseBase64Binary(credentials);
+                String decodedString = new String(decoded);
+                logger.info(decodedString);
+                String[] actualCredentials = decodedString.split(":");
+                String userName = actualCredentials[0];
+                String password = actualCredentials[1];
+
+                if (userService.authentication(userName, password)) {
+                    halt(401, "Sorry, Not authorized!");
+                }
+            } else {
+                halt(401, "Not authorized!");
+            }
         });
 
         post("/api/:username/videos/new", (req, res) -> {
@@ -94,6 +103,84 @@ public class Api {
             gfsFile.save();
 
             return 201;
+        });
+
+        //查询列表
+        get("/api/:username/videos", (req, res) -> {
+            res.type("application/json");
+
+            String username = req.params(":username");
+            BasicDBObject query = new BasicDBObject("username", username);
+
+            GridFS gridFS = new GridFS(db, "myvideos");
+            List<GridFSDBFile> files = new ArrayList<>();
+
+            files = gridFS.find(query);
+
+            return files;
+
+        });
+
+        //查询单个元素,返回文件
+        get("/:username/videos/:videoId", (req, res) ->{
+            BasicDBObject query = new BasicDBObject();
+
+            String id = req.params(":videoId");
+            ObjectId videoId = new ObjectId(id);
+            query.put("_id", videoId);
+
+            GridFS gridFS = new GridFS(db, "myvideos");
+            GridFSDBFile gridFSDBFile = gridFS.findOne(query);
+
+            res.type("video/mp4");
+
+            InputStream inputStream = gridFSDBFile.getInputStream();
+            ServletOutputStream out = res.raw().getOutputStream();
+            String range = req.headers("Range");
+
+            if (range == null) {
+                try{
+                    IOUtils.copy(inputStream, out);
+                }
+                finally {
+                    inputStream.close();
+                }
+            }
+
+            String[] ranges = range.split("=")[1].split("-");
+            int from = Integer.parseInt(ranges[0]);
+            int to = (int) gridFSDBFile.getChunkSize() + from;
+
+            if (to > gridFSDBFile.getLength()) {
+                to = (int) (gridFSDBFile.getLength() - 1);
+            }
+
+            if (ranges.length == 2) {
+                to = Integer.parseInt(ranges[1]);
+            }
+
+            int len = to - from + 1;
+            res.status(206);
+            res.header("Accept-Ranges", "bytes");
+            String responseRange = String.format("bytes %d-%d/%d", from, to, (int)gridFSDBFile.getLength());
+            res.header("Content-Range", responseRange);
+            res.raw().setContentLength(len);
+            inputStream.skip(from);
+            byte[] buffer = new byte[1024];
+
+            try {
+                while (len != 0) {
+                    int read = inputStream.read(buffer, 0, buffer.length > len ? len : buffer.length);
+                    out.write(buffer, 0, read);
+                    len -= read;
+                }
+            } catch (IOException e) {
+                logger.error("error: {}", e.getCause());
+            } finally {
+                inputStream.close();
+            }
+            return 206;
+
         });
 
         get("greeting", (req, res) -> {
