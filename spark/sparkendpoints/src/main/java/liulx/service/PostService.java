@@ -3,6 +3,7 @@ package liulx.service;
 import com.mongodb.MongoClient;
 import liulx.domain.Post;
 import liulx.domain.User;
+import liulx.iservice.IPostService;
 import org.mongodb.morphia.Datastore;
 import org.mongodb.morphia.Morphia;
 import org.mongodb.morphia.query.Query;
@@ -13,7 +14,7 @@ import java.util.List;
 /**
  * Created by Liu Lixiang on 2017/5/2.
  */
-public class PostService {
+public class PostService implements IPostService {
     MongoClient mongoClient = new MongoClient("localhost", 27017);
     Datastore datastore = new Morphia().createDatastore(mongoClient, "users");
 

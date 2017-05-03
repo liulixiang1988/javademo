@@ -1,5 +1,8 @@
 package liulx;
 
+import com.google.inject.Guice;
+import com.google.inject.Inject;
+import com.google.inject.Injector;
 import com.mongodb.BasicDBObject;
 import com.mongodb.DB;
 import com.mongodb.DBCollection;
@@ -8,8 +11,9 @@ import com.mongodb.gridfs.GridFSDBFile;
 import com.mongodb.gridfs.GridFSInputFile;
 import liulx.domain.Post;
 import liulx.domain.User;
-import liulx.service.PostService;
-import liulx.service.UserService;
+import liulx.guice.ServiceModule;
+import liulx.iservice.IPostService;
+import liulx.iservice.IUserService;
 import liulx.util.MongoConnector;
 import org.bson.types.ObjectId;
 import org.mindrot.jbcrypt.BCrypt;
@@ -38,12 +42,14 @@ public class Api {
 
     private static MongoConnector mongoDb = new MongoConnector();
 
-    public static UserService userService = new UserService();
-    public static PostService postService = new PostService();
+    @Inject
+    public static IUserService userService;
+    @Inject
+    public static IPostService postService;
     public static Logger logger = LoggerFactory.getLogger(Api.class);
 
     public static void main(String[] args) {
-
+        Injector injector = Guice.createInjector(new ServiceModule());
         DB db = mongoDb.getDb();
         DBCollection collection = db.getCollection("myvideos.files");
 

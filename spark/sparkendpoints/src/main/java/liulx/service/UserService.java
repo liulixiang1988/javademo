@@ -2,6 +2,7 @@ package liulx.service;
 
 import com.mongodb.MongoClient;
 import liulx.domain.User;
+import liulx.iservice.IUserService;
 import org.mindrot.jbcrypt.BCrypt;
 import org.mongodb.morphia.Datastore;
 import org.mongodb.morphia.Morphia;
@@ -9,7 +10,7 @@ import org.mongodb.morphia.Morphia;
 /**
  * Created by Liu Lixiang on 2017/4/30.
  */
-public class UserService {
+public class UserService implements IUserService{
     MongoClient mongoClient = new MongoClient("localhost", 27017);
     Datastore datastore = new Morphia().createDatastore(mongoClient, "users");
 
