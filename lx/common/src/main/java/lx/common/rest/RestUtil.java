@@ -3,9 +3,26 @@ package lx.common.rest;
 import lx.common.util.JsonUtil;
 import lx.common.util.PathUtils;
 import org.apache.commons.lang3.StringUtils;
+import org.apache.http.Consts;
+import org.apache.http.HttpEntity;
+import org.apache.http.HttpHeaders;
+import org.apache.http.HttpResponse;
+import org.apache.http.client.methods.*;
+import org.apache.http.client.utils.URIBuilder;
+import org.apache.http.conn.ssl.NoopHostnameVerifier;
+import org.apache.http.conn.ssl.SSLConnectionSocketFactory;
+import org.apache.http.entity.ContentType;
+import org.apache.http.entity.StringEntity;
+import org.apache.http.impl.client.CloseableHttpClient;
+import org.apache.http.impl.client.HttpClients;
+import org.apache.http.ssl.SSLContexts;
+import org.apache.http.util.EntityUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import javax.net.ssl.SSLContext;
+import javax.net.ssl.TrustManager;
+import javax.net.ssl.X509TrustManager;
 import java.io.IOException;
 import java.io.UnsupportedEncodingException;
 import java.net.URISyntaxException;
@@ -16,29 +33,6 @@ import java.security.NoSuchAlgorithmException;
 import java.security.SecureRandom;
 import java.util.Collections;
 import java.util.Map;
-
-import javax.net.ssl.SSLContext;
-import javax.net.ssl.TrustManager;
-import javax.net.ssl.X509TrustManager;
-import org.apache.http.Consts;
-import org.apache.http.HttpEntity;
-import org.apache.http.HttpHeaders;
-import org.apache.http.HttpResponse;
-import org.apache.http.client.ClientProtocolException;
-import org.apache.http.client.methods.HttpDelete;
-import org.apache.http.client.methods.HttpGet;
-import org.apache.http.client.methods.HttpPost;
-import org.apache.http.client.methods.HttpPut;
-import org.apache.http.client.methods.HttpRequestBase;
-import org.apache.http.client.utils.URIBuilder;
-import org.apache.http.conn.ssl.NoopHostnameVerifier;
-import org.apache.http.conn.ssl.SSLConnectionSocketFactory;
-import org.apache.http.entity.ContentType;
-import org.apache.http.entity.StringEntity;
-import org.apache.http.impl.client.CloseableHttpClient;
-import org.apache.http.impl.client.HttpClients;
-import org.apache.http.ssl.SSLContexts;
-import org.apache.http.util.EntityUtils;
 
 /**
  * Created by Liu Lixiang on 2017/9/15.
@@ -147,52 +141,17 @@ public class RestUtil {
 
     private String internalExecute(RestRequestMessage message, String resourcePath, String protocol)
     {
-        CloseableHttpClient httpClient = null;
-        try
+        try(CloseableHttpClient httpClient = createHttpClient(resourcePath, protocol))
         {
             HttpRequestBase request = buildRequestMessage(message, resourcePath);
-            httpClient = createHttpClient(resourcePath, protocol);
+            ;
             HttpResponse response = httpClient.execute(request);
             HttpEntity entity = response.getEntity();
             return entity != null ? EntityUtils.toString(entity) : null;
         }
-        catch (UnsupportedEncodingException e)
+        catch (URISyntaxException | KeyManagementException | NoSuchAlgorithmException | IOException e)
         {
             LOGGER.error(e + "");
-        }
-        catch (URISyntaxException e)
-        {
-            LOGGER.error(e + "");
-        }
-        catch (KeyManagementException e)
-        {
-            LOGGER.error(e + "");
-        }
-        catch (NoSuchAlgorithmException e)
-        {
-            LOGGER.error(e + "");
-        }
-        catch (ClientProtocolException e)
-        {
-            LOGGER.error(e + "");
-        }
-        catch (IOException e)
-        {
-            LOGGER.error(e + "");
-        }
-        finally
-        {
-            if (null != httpClient)
-            {
-                try
-                {
-                    httpClient.close();
-                }
-                catch (IOException e)
-                {
-                    LOGGER.error("Close failed " + e);
-                }
-            }
         }
         return null;
     }
@@ -327,10 +286,7 @@ public class RestUtil {
         {
             URIBuilder uriBuilder = new URIBuilder(httpRequest.getURI());
 
-            for (Map.Entry<String, String> entry : parameters.entrySet())
-            {
-                uriBuilder.addParameter(entry.getKey(), entry.getValue());
-            }
+            parameters.forEach(uriBuilder::addParameter);
 
             httpRequest.setURI(uriBuilder.build());
         }
@@ -340,10 +296,7 @@ public class RestUtil {
     {
         if (!headers.isEmpty())
         {
-            for (Map.Entry<String, String> entry : headers.entrySet())
-            {
-                httpRequest.addHeader(entry.getKey(), entry.getValue());
-            }
+            headers.forEach(httpRequest::addHeader);
         }
     }
 }
