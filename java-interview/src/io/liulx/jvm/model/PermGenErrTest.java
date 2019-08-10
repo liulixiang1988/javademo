@@ -1,4 +1,4 @@
-package io.liulx.interview.jvm.model;
+package io.liulx.jvm.model;
 
 import java.util.Random;
 

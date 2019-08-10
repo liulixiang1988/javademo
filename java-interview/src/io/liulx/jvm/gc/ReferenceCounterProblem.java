@@ -1,4 +1,4 @@
-package io.liulx.interview.jvm.gc;
+package io.liulx.jvm.gc;
 
 public class ReferenceCounterProblem {
     public static void main(String[] args) {

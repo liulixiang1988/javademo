@@ -1,4 +1,4 @@
-package io.liulx.interview.jvm.model;
+package io.liulx.jvm.model;
 
 public class InterDifference {
     public static void main(String[] args) {
