@@ -1,5 +1,8 @@
 package io.liulx.dianping.controller;
 
+import io.liulx.dianping.common.BusinessEnum;
+import io.liulx.dianping.common.BusinessException;
+import io.liulx.dianping.common.CommonDataResp;
 import io.liulx.dianping.model.UserModel;
 import io.liulx.dianping.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -28,7 +31,12 @@ public class UserController {
 
   @RequestMapping("/get")
   @ResponseBody
-  public UserModel getUser(@RequestParam(name = "id") Integer id) {
-    return userService.getUser(id);
+  public CommonDataResp<UserModel> getUser(@RequestParam(name = "id") Integer id)
+      throws BusinessException {
+    UserModel userModel = userService.getUser(id);
+    if (userModel == null) {
+      throw new BusinessException(BusinessEnum.NO_OBJECT_FOUND);
+    }
+    return CommonDataResp.create(userModel);
   }
 }
