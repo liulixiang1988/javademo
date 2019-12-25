@@ -10,6 +10,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.servlet.ModelAndView;
 
 /**
  * 用户
@@ -27,6 +28,14 @@ public class UserController {
   @ResponseBody
   public String test() {
     return "test";
+  }
+
+  @RequestMapping("/index")
+  public ModelAndView index() {
+    String userName = "liulixiang";
+    ModelAndView modelAndView = new ModelAndView("/index.html");
+    modelAndView.addObject("username", userName);
+    return modelAndView;
   }
 
   @RequestMapping("/get")
