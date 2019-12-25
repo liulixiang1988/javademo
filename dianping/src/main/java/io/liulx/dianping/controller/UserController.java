@@ -99,11 +99,14 @@ public class UserController {
     return CommonResp.commonBuilder().code(0).message("logout").build();
   }
 
-  @RequestMapping("/currentUser")
+  @RequestMapping("/getcurrentuser")
   public @ResponseBody
-  CommonDataResp<UserResp> getCurrentUser() {
+  CommonResp getCurrentUser() {
     UserModel userModel = (UserModel) httpServletRequest.getSession()
         .getAttribute(CURRENT_USER_SESSION);
+    if (userModel == null) {
+      return new CommonResp(BusinessEnum.LOGIN_FAIL);
+    }
     UserResp userResp = new UserResp(userModel);
     return CommonDataResp.create(userResp);
   }
