@@ -16,4 +16,10 @@ public class BusinessException extends Exception {
     super();
     error = new CommonResp(errorEnum);
   }
+
+  public BusinessException(BusinessEnum errorEnum, String message) {
+    super();
+    error = new CommonResp(errorEnum);
+    error.setMessage(message);
+  }
 }
