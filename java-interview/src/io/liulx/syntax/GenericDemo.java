@@ -40,6 +40,6 @@ class ArrayAlg{
     }
 
     public static <T extends Comparable> T min(T[] a) {
-
+        return a[0];
     }
 }
