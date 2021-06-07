@@ -6,7 +6,7 @@
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <junit-version>4.12</junit-version>
-        <logback-version>1.1.7</logback-version>
+        <logback-version>1.2.0</logback-version>
         <quartz-version>2.2.3</quartz-version>
         <jedis-version>2.9.0</jedis-version>
         <gson-version>2.7</gson-version>
