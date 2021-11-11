@@ -15,7 +15,7 @@
         <httpClient.version>4.5.3</httpClient.version>
         <javax.validation.version>1.0.0.GA</javax.validation.version>
         <jedis.version>2.9.0</jedis.version>
-        <junit.version>4.12</junit.version>
+        <junit.version>4.13.1</junit.version>
         <servlet.version>3.1.0</servlet.version>
         <sl4j.version>1.7.25</sl4j.version>
     </properties>
