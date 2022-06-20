@@ -13,7 +13,7 @@
         <commons-version>2.5</commons-version>
         <commons3-version>3.4</commons3-version>
         <spring-version>4.3.2.RELEASE</spring-version>
-        <mysql-version>6.0.3</mysql-version>
+        <mysql-version>8.0.28</mysql-version>
         <hamcrest-version>1.3</hamcrest-version>
     </properties>
 
